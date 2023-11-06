@@ -107,10 +107,6 @@ Generate documentation in HTML format:
 cargo doc --open
 ```
 
-## License
-
-This project is licensed under the [MIT license][license].
-
 ## Sponsors
 
 [![Chargetrip logo](https://chargetrip-files.s3.eu-central-1.amazonaws.com/logo-1.png)](https://www.chargetrip.com)

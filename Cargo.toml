@@ -1,0 +1,18 @@
+[package]
+name = "supercluster"
+description = "A very fast Rust crate for geospatial point clustering"
+version = "1.0.5"
+edition = "2021"
+license = "MIT"
+readme = "README.md"
+authors = ["Chargetrip <dev@chargetrip.com>"]
+keywords = ["supercluster", "geospatial", "geo", "tile", "mvt"]
+exclude = [".github/**"]
+documentation = "https://docs.rs/supercluster/1.0.5"
+repository = "https://github.com/chargetrip/supercluster-rust"
+
+[dependencies]
+serde = { version = "1.0.190", features = ["derive"] }
+
+[dev-dependencies]
+serde_json = "1.0.108"

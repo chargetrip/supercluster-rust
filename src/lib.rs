@@ -117,7 +117,14 @@ pub struct Supercluster {
 }
 
 impl Supercluster {
-    /// Create a new Supercluster instance with the specified configuration settings
+    /// Create a new instance of `Supercluster` with the specified configuration settings.
+    ///
+    /// # Arguments
+    ///
+    /// - `options`: The configuration options for Supercluster.
+    ///
+    /// # Returns
+    /// A new `Supercluster` instance with the given configuration.
     pub fn new(options: Options) -> Self {
         let capacity = options.max_zoom + 1;
         let trees: Vec<KDBush> = (0..capacity + 1)
@@ -133,7 +140,14 @@ impl Supercluster {
         }
     }
 
-    /// Load the input GeoJSON points into the Supercluster instance, performing clustering at various zoom levels
+    /// Load the input GeoJSON points into the Supercluster instance, performing clustering at various zoom levels.
+    ///
+    /// # Arguments
+    ///
+    /// - `points`: A vector of GeoJSON features representing input points to be clustered.
+    ///
+    /// # Returns
+    /// A mutable reference to the updated `Supercluster` instance.
     pub fn load(&mut self, points: Vec<Feature>) -> &mut Self {
         let min_zoom = self.options.min_zoom;
         let max_zoom = self.options.max_zoom;
@@ -185,7 +199,15 @@ impl Supercluster {
         self
     }
 
-    /// Retrieve clustered features within the specified bounding box and zoom level
+    /// Retrieve clustered features within the specified bounding box and zoom level.
+    ///
+    /// # Arguments
+    ///
+    /// - `bbox`: The bounding box as an array of four coordinates [min_lng, min_lat, max_lng, max_lat].
+    /// - `zoom`: The zoom level at which to retrieve clusters.
+    ///
+    /// # Returns
+    /// A vector of GeoJSON features representing the clusters within the specified bounding box and zoom level.
     pub fn get_clusters(&self, bbox: [f64; 4], zoom: i32) -> Vec<Feature> {
         let mut min_lng = ((((bbox[0] + 180.0) % 360.0) + 360.0) % 360.0) - 180.0;
         let min_lat = f64::max(-90.0, f64::min(90.0, bbox[1]));
@@ -225,7 +247,15 @@ impl Supercluster {
         clusters
     }
 
-    /// Retrieve the cluster features for a specified cluster ID
+    /// Retrieve the cluster features for a specified cluster ID.
+    ///
+    /// # Arguments
+    ///
+    /// - `cluster_id`: The unique identifier of the cluster.
+    ///
+    /// # Returns
+    /// A `Result` containing a vector of GeoJSON features representing the children of the specified cluster if successful,
+    /// or an error message if the cluster is not found.
     pub fn get_children(&self, cluster_id: usize) -> Result<Vec<Feature>, &'static str> {
         let origin_id = self.get_origin_id(cluster_id);
         let origin_zoom = self.get_origin_zoom(cluster_id);
@@ -275,7 +305,16 @@ impl Supercluster {
         Ok(children)
     }
 
-    /// Retrieve individual leaf features within a cluster
+    /// Retrieve individual leaf features within a cluster.
+    ///
+    /// # Arguments
+    ///
+    /// - `cluster_id`: The unique identifier of the cluster.
+    /// - `limit`: The maximum number of leaf features to retrieve.
+    /// - `offset`: The offset to start retrieving leaf features.
+    ///
+    /// # Returns
+    /// A vector of GeoJSON features representing the individual leaf features within the cluster.
     pub fn get_leaves(&self, cluster_id: usize, limit: usize, offset: usize) -> Vec<Feature> {
         let mut leaves = vec![];
 
@@ -284,7 +323,16 @@ impl Supercluster {
         leaves
     }
 
-    /// Retrieve a vector of features within a tile at the given zoom level and tile coordinates
+    /// Retrieve a vector of features within a tile at the given zoom level and tile coordinates.
+    ///
+    /// # Arguments
+    ///
+    /// - `z`: The zoom level of the tile.
+    /// - `x`: The X coordinate of the tile.
+    /// - `y`: The Y coordinate of the tile.
+    ///
+    /// # Returns
+    /// An optional `Tile` containing a vector of GeoJSON features within the specified tile, or `None` if there are no features.
     pub fn get_tile(&self, z: i32, x: f64, y: f64) -> Option<Tile> {
         let tree = &self.trees[self.limit_zoom(z)];
         let z2: f64 = (2u32).pow(z as u32) as f64;
@@ -317,7 +365,14 @@ impl Supercluster {
         }
     }
 
-    /// Determine the zoom level at which a specific cluster expands
+    /// Determine the zoom level at which a specific cluster expands.
+    ///
+    /// # Arguments
+    ///
+    /// - `cluster_id`: The unique identifier of the cluster.
+    ///
+    /// # Returns
+    /// The zoom level at which the cluster expands.
     pub fn get_cluster_expansion_zoom(&self, mut cluster_id: usize) -> usize {
         let mut expansion_zoom = self.get_origin_zoom(cluster_id) - 1;
 
@@ -387,7 +442,14 @@ impl Supercluster {
         skipped
     }
 
-    /// Create a KD-tree using the specified data, which is used for spatial indexing
+    /// Create a KD-tree using the specified data, which is used for spatial indexing.
+    ///
+    /// # Arguments
+    ///
+    /// - `data`: A vector of flat numeric arrays representing point data for the KD-tree.
+    ///
+    /// # Returns
+    /// A `KDBush` instance with the specified data.
     fn create_tree(&mut self, data: Vec<f64>) -> KDBush {
         let mut tree = KDBush::new(data.len() / self.stride, self.options.node_size);
 
@@ -401,7 +463,16 @@ impl Supercluster {
         tree
     }
 
-    /// Populate a tile with features based on the specified point IDs, data, and tile parameters
+    /// Populate a tile with features based on the specified point IDs, data, and tile parameters.
+    ///
+    /// # Arguments
+    ///
+    /// - `ids`: A vector of point IDs used for populating the tile.
+    /// - `data`: A reference to the flat numeric arrays representing point data.
+    /// - `x`: The X coordinate of the tile.
+    /// - `y`: The Y coordinate of the tile.
+    /// - `z2`: The zoom level multiplied by 2.
+    /// - `tile`: A mutable reference to the `Tile` to be populated with features.
     fn add_tile_features(
         &self,
         ids: &Vec<usize>,
@@ -454,12 +525,28 @@ impl Supercluster {
         }
     }
 
-    /// Calculate the effective zoom level that takes into account the configured minimum and maximum zoom levels
+    /// Calculate the effective zoom level that takes into account the configured minimum and maximum zoom levels.
+    ///
+    /// # Arguments
+    ///
+    /// - `zoom`: The initial zoom level.
+    ///
+    /// # Returns
+    /// The effective zoom level considering the configured minimum and maximum zoom levels.
     fn limit_zoom(&self, zoom: i32) -> usize {
         zoom.max(self.options.min_zoom).min(self.options.max_zoom + 1) as usize
     }
 
-    /// Cluster points on a given zoom level using a KD-tree and returns updated data arrays
+    /// Cluster points on a given zoom level using a KD-tree and returns updated data arrays.
+    ///
+    /// # Arguments
+    ///
+    /// - `tree`: A reference to the KD-tree structure for spatial indexing.
+    /// - `zoom`: The zoom level at which clustering is performed.
+    ///
+    /// # Returns
+    /// A tuple of two vectors: the first one contains updated data arrays for the current zoom level,
+    /// and the second one contains data arrays for the next zoom level.
     fn cluster(&self, tree: &KDBush, zoom: i32) -> (Vec<f64>, Vec<f64>) {
         let r = self.options.radius / (self.options.extent * (2.0_f64).powi(zoom));
         let mut data = tree.data.clone();
@@ -555,18 +642,41 @@ impl Supercluster {
         (data, next_data)
     }
 
-    /// Get index of the point from which the cluster originated
+    /// Get the index of the point from which the cluster originated.
+    ///
+    /// # Arguments
+    ///
+    /// - `cluster_id`: The unique identifier of the cluster.
+    ///
+    /// # Returns
+    /// The index of the point from which the cluster originated.
     fn get_origin_id(&self, cluster_id: usize) -> usize {
         (cluster_id - self.points.len()) >> 5
     }
 
-    /// Get zoom of the point from which the cluster originated
+    /// Get the zoom of the point from which the cluster originated.
+    ///
+    /// # Arguments
+    ///
+    /// - `cluster_id`: The unique identifier of the cluster.
+    ///
+    /// # Returns
+    /// The zoom level of the point from which the cluster originated.
     fn get_origin_zoom(&self, cluster_id: usize) -> usize {
         (cluster_id - self.points.len()) % 32
     }
 }
 
-/// Convert clustered point data into a GeoJSON feature representing a cluster
+/// Convert clustered point data into a GeoJSON feature representing a cluster.
+///
+/// # Arguments
+///
+/// - `data`: A reference to the flat numeric arrays representing point data.
+/// - `i`: The index in the data array for the cluster.
+/// - `cluster_props`: A reference to a vector of cluster properties.
+///
+/// # Returns
+/// A GeoJSON feature representing a cluster.
 fn get_cluster_json(data: &[f64], i: usize, cluster_props: &[Properties]) -> Feature {
     Feature {
         r#type: "Feature".to_string(),
@@ -579,7 +689,16 @@ fn get_cluster_json(data: &[f64], i: usize, cluster_props: &[Properties]) -> Fea
     }
 }
 
-/// Retrieve properties for a cluster based on clustered point data
+/// Retrieve properties for a cluster based on clustered point data.
+///
+/// # Arguments
+///
+/// - `data`: A reference to the flat numeric arrays representing point data.
+/// - `i`: The index in the data array for the cluster.
+/// - `cluster_props`: A reference to a vector of cluster properties.
+///
+/// # Returns
+/// Properties for the cluster based on the clustered point data.
 fn get_cluster_properties(data: &[f64], i: usize, cluster_props: &[Properties]) -> Properties {
     let count = data[i + OFFSET_NUM];
     let abbrev = if count >= 10000.0 {

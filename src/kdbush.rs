@@ -21,7 +21,12 @@ pub struct KDBush {
 }
 
 impl KDBush {
-    /// Create a new KDBush index with the specified node size and the size hint for allocating memory
+    /// Create a new KDBush index with the specified node size and the size hint for allocating memory.
+    ///
+    /// # Arguments
+    ///
+    /// - `size_hint`: An estimate of the number of points that will be added to the index.
+    /// - `node_size`: The maximum number of points in a leaf node of the KD-tree.
     pub fn new(size_hint: usize, node_size: usize) -> Self {
         KDBush {
             node_size,
@@ -32,12 +37,20 @@ impl KDBush {
         }
     }
 
-    /// Add a 2D point to the KDBush index
+    /// Add a 2D point to the KDBush index.
+    ///
+    /// # Arguments
+    ///
+    /// - `x`: The X-coordinate of the point (longitude).
+    /// - `y`: The Y-coordinate of the point (latitude).
     pub fn add_point(&mut self, x: f64, y: f64) {
         self.points.push([x, y]);
     }
 
-    /// Build the KD-tree index from the added points
+    /// Build the KD-tree index from the added points.
+    ///
+    /// This method constructs the KD-tree index based on the points added to the KDBush instance.
+    /// After calling this method, the index will be ready for range and within queries.
     pub fn build_index(&mut self) {
         self.coords = vec![0.0; 2 * self.points.len()];
 
@@ -51,7 +64,17 @@ impl KDBush {
         self.sort(0, self.ids.len() - 1, 0);
     }
 
-    /// Find all point indices within the specified bounding box defined by minimum and maximum coordinates
+    /// Find all point indices within the specified bounding box defined by minimum and maximum coordinates.
+    ///
+    /// # Arguments
+    ///
+    /// - `min_x`: The minimum X-coordinate (longitude) of the bounding box.
+    /// - `min_y`: The minimum Y-coordinate (latitude) of the bounding box.
+    /// - `max_x`: The maximum X-coordinate (longitude) of the bounding box.
+    /// - `max_y`: The maximum Y-coordinate (latitude) of the bounding box.
+    ///
+    /// # Returns
+    /// A vector of point indices that fall within the specified bounding box.
     pub fn range(&self, min_x: f64, min_y: f64, max_x: f64, max_y: f64) -> Vec<usize> {
         let mut stack = vec![(0, self.ids.len() - 1, 0)];
         let mut result: Vec<usize> = Vec::new();
@@ -93,7 +116,16 @@ impl KDBush {
         result
     }
 
-    /// Find all point indices within a given radius from a query point specified by coordinates
+    /// Find all point indices within a given radius from a query point specified by coordinates.
+    ///
+    /// # Arguments
+    ///
+    /// - `qx`: The X-coordinate (longitude) of the query point.
+    /// - `qy`: The Y-coordinate (latitude) of the query point.
+    /// - `radius`: The radius around the query point.
+    ///
+    /// # Returns
+    /// A vector of point indices that fall within the specified radius from the query point.
     pub fn within(&self, qx: f64, qy: f64, radius: f64) -> Vec<usize> {
         let mut stack = vec![(0, self.ids.len() - 1, 0)];
         let mut result: Vec<usize> = Vec::new();
@@ -136,7 +168,15 @@ impl KDBush {
         result
     }
 
-    /// Sort points in the KD-tree along a specified axis
+    /// Sort points in the KD-tree along a specified axis.
+    ///
+    /// This method sorts the points in the KD-tree along a specified axis (0 for X or 1 for Y).
+    ///
+    /// # Arguments
+    ///
+    /// - `left`: The left index for the range of points to be sorted.
+    /// - `right`: The right index for the range of points to be sorted.
+    /// - `axis`: The axis along which the points should be sorted (0 for X or 1 for Y).
     fn sort(&mut self, left: usize, right: usize, axis: usize) {
         if right - left <= self.node_size {
             return;
@@ -150,7 +190,17 @@ impl KDBush {
         self.sort(m + 1, right, 1 - axis);
     }
 
-    /// Select the k-th element along a specified axis within a range of indices
+    /// Select the k-th element along a specified axis within a range of indices.
+    ///
+    /// This method selects the k-th element along the specified axis (0 for X or 1 for Y)
+    /// within the given range of indices.
+    ///
+    /// # Arguments
+    ///
+    /// - `k`: The index of the element to be selected.
+    /// - `left`: The left index for the range of points.
+    /// - `right`: The right index for the range of points.
+    /// - `axis`: The axis along which the selection should be performed (0 for X or 1 for Y).
     fn select(&mut self, k: usize, left: usize, right: usize, axis: usize) {
         let mut left = left;
         let mut right = right;

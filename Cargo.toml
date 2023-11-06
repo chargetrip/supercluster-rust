@@ -1,14 +1,14 @@
 [package]
 name = "supercluster"
 description = "A very fast Rust crate for geospatial point clustering"
-version = "1.0.5"
+version = "1.0.6"
 edition = "2021"
 license = "MIT"
 readme = "README.md"
 authors = ["Chargetrip <dev@chargetrip.com>"]
 keywords = ["supercluster", "geospatial", "geo", "tile", "mvt"]
 exclude = [".github/**"]
-documentation = "https://docs.rs/supercluster/1.0.5"
+documentation = "https://docs.rs/supercluster/1.0.6"
 repository = "https://github.com/chargetrip/supercluster-rust"
 
 [dependencies]

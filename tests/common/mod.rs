@@ -1,5 +1,5 @@
-use std::{ path::Path, fs };
-use supercluster::{ Tile, Options, Feature };
+use std::{fs, path::Path};
+use supercluster::{Feature, Options, Tile};
 
 #[allow(dead_code)]
 pub fn get_options(radius: f64, extent: f64, min_points: i32, max_zoom: i32) -> Options {
@@ -32,9 +32,8 @@ pub fn load_tile_places() -> Tile {
 #[allow(dead_code)]
 pub fn load_tile_places_with_min_5() -> Tile {
     let file_path = Path::new("./tests/common/places-tile-0-0-0-min-5.json");
-    let json_string = fs
-        ::read_to_string(file_path)
-        .expect("places-tile-0-0-0-min-5.json was not found");
+    let json_string =
+        fs::read_to_string(file_path).expect("places-tile-0-0-0-min-5.json was not found");
 
     serde_json::from_str(&json_string).expect("places-z0-0-0-min5.json was not parsed")
 }

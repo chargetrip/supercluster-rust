@@ -2,9 +2,9 @@
 
 mod kdbush;
 
-use std::f64::{ consts::PI, INFINITY };
-use serde::{ Deserialize, Serialize };
 use kdbush::KDBush;
+use serde::{Deserialize, Serialize};
+use std::f64::{consts::PI, INFINITY};
 
 /// An offset index used to access the zoom level value associated with a cluster in the data arrays
 const OFFSET_ZOOM: usize = 2;
@@ -229,19 +229,22 @@ impl Supercluster {
         }
 
         let tree = &self.trees[self.limit_zoom(zoom)];
-        let ids = tree.range(lng_x(min_lng), lat_y(max_lat), lng_x(max_lng), lat_y(min_lat));
+        let ids = tree.range(
+            lng_x(min_lng),
+            lat_y(max_lat),
+            lng_x(max_lng),
+            lat_y(min_lat),
+        );
         let mut clusters = Vec::new();
 
         for id in ids {
             let k = self.stride * id;
 
-            clusters.push(
-                if tree.data[k + OFFSET_NUM] > 1.0 {
-                    get_cluster_json(&tree.data, k, &self.cluster_props)
-                } else {
-                    self.points[tree.data[k + OFFSET_ID] as usize].clone()
-                }
-            );
+            clusters.push(if tree.data[k + OFFSET_NUM] > 1.0 {
+                get_cluster_json(&tree.data, k, &self.cluster_props)
+            } else {
+                self.points[tree.data[k + OFFSET_ID] as usize].clone()
+            });
         }
 
         clusters
@@ -273,9 +276,8 @@ impl Supercluster {
             return Err(error_msg);
         }
 
-        let r =
-            self.options.radius /
-            (self.options.extent * f64::powf(2.0, (origin_zoom as f64) - 1.0));
+        let r = self.options.radius
+            / (self.options.extent * f64::powf(2.0, (origin_zoom as f64) - 1.0));
 
         let x = data[origin_id * self.stride];
         let y = data[origin_id * self.stride + 1];
@@ -406,7 +408,7 @@ impl Supercluster {
         cluster_id: usize,
         limit: usize,
         offset: usize,
-        mut skipped: usize
+        mut skipped: usize,
     ) -> usize {
         let cluster = self.get_children(cluster_id).unwrap();
 
@@ -422,7 +424,7 @@ impl Supercluster {
                         child.properties.cluster_id.unwrap(),
                         limit,
                         offset,
-                        skipped
+                        skipped,
                     );
                     // Exit the cluster
                 }
@@ -480,7 +482,7 @@ impl Supercluster {
         x: f64,
         y: f64,
         z2: f64,
-        tile: &mut Tile
+        tile: &mut Tile,
     ) {
         for i in ids {
             let k = i * self.stride;
@@ -518,7 +520,7 @@ impl Supercluster {
                     r#type: "Point".to_string(),
                     coordinates: vec![
                         (self.options.extent * (px * z2 - x)).round(),
-                        (self.options.extent * (py * z2 - y)).round()
+                        (self.options.extent * (py * z2 - y)).round(),
                     ],
                 }),
             });
@@ -534,7 +536,8 @@ impl Supercluster {
     /// # Returns
     /// The effective zoom level considering the configured minimum and maximum zoom levels.
     fn limit_zoom(&self, zoom: i32) -> usize {
-        zoom.max(self.options.min_zoom).min(self.options.max_zoom + 1) as usize
+        zoom.max(self.options.min_zoom)
+            .min(self.options.max_zoom + 1) as usize
     }
 
     /// Cluster points on a given zoom level using a KD-tree and returns updated data arrays.
@@ -805,8 +808,14 @@ mod tests {
 
         assert_eq!(result.r#type, "Feature".to_string());
         assert_eq!(result.id, Some(0));
-        assert_eq!(result.geometry.as_ref().unwrap().r#type, "Point".to_string());
-        assert_eq!(result.geometry.unwrap().coordinates, vec![-180.0, 85.05112877980659]);
+        assert_eq!(
+            result.geometry.as_ref().unwrap().r#type,
+            "Point".to_string()
+        );
+        assert_eq!(
+            result.geometry.unwrap().coordinates,
+            vec![-180.0, 85.05112877980659]
+        );
 
         let properties = result.properties;
 
@@ -827,8 +836,14 @@ mod tests {
 
         assert_eq!(result.id, Some(0));
         assert_eq!(result.r#type, "Feature".to_string());
-        assert_eq!(result.geometry.as_ref().unwrap().r#type, "Point".to_string());
-        assert_eq!(result.geometry.unwrap().coordinates, vec![-180.0, 85.05112877980659]);
+        assert_eq!(
+            result.geometry.as_ref().unwrap().r#type,
+            "Point".to_string()
+        );
+        assert_eq!(
+            result.geometry.unwrap().coordinates,
+            vec![-180.0, 85.05112877980659]
+        );
 
         let properties = result.properties;
 

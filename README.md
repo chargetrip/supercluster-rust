@@ -101,6 +101,12 @@ Run [clippy](https://github.com/rust-lang/rust-clippy):
 cargo clippy --all-targets --all-features -- -D warnings
 ```
 
+Run [lint](https://github.com/rust-lang/rustfmt):
+
+```bash
+cargo fmt
+```
+
 Generate documentation in HTML format:
 
 ```bash

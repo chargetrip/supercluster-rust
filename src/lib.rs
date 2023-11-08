@@ -22,7 +22,7 @@ const OFFSET_NUM: usize = 5;
 const OFFSET_PROP: usize = 6;
 
 /// Supercluster configuration options
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct Options {
     /// Min zoom level to generate clusters on
     pub min_zoom: i32,
@@ -97,7 +97,7 @@ pub struct Tile {
     pub features: Vec<Feature>,
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 /// A spatial clustering configuration and data structure
 pub struct Supercluster {
     /// Configuration settings

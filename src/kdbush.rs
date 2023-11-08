@@ -2,7 +2,7 @@
 type Point = [f64; 2];
 
 /// A very fast static spatial index for 2D points based on a flat KD-tree
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct KDBush {
     /// Node size for the KD-tree. Determines the number of points in a leaf node
     pub node_size: usize,

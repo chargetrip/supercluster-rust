@@ -8,7 +8,7 @@ readme = "README.md"
 authors = ["Chargetrip <dev@chargetrip.com>"]
 keywords = ["supercluster", "geospatial", "geo", "tile", "mvt"]
 exclude = [".github/**"]
-documentation = "https://docs.rs/supercluster/1.0.8"
+documentation = "https://docs.rs/supercluster"
 repository = "https://github.com/chargetrip/supercluster-rust"
 
 [dependencies]

@@ -25,13 +25,13 @@ const OFFSET_PROP: usize = 6;
 #[derive(Clone, Debug)]
 pub struct Options {
     /// Min zoom level to generate clusters on
-    pub min_zoom: i32,
+    pub min_zoom: u8,
 
     /// Max zoom level to cluster the points on
-    pub max_zoom: i32,
+    pub max_zoom: u8,
 
     /// Minimum points to form a cluster
-    pub min_points: i32,
+    pub min_points: u8,
 
     /// Cluster radius in pixels
     pub radius: f64,
@@ -91,7 +91,7 @@ pub struct Feature {
 }
 
 /// Collection of GeoJSON features in a specific tile
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Tile {
     /// GeoJSON features
     pub features: Vec<Feature>,
@@ -208,7 +208,7 @@ impl Supercluster {
     ///
     /// # Returns
     /// A vector of GeoJSON features representing the clusters within the specified bounding box and zoom level.
-    pub fn get_clusters(&self, bbox: [f64; 4], zoom: i32) -> Vec<Feature> {
+    pub fn get_clusters(&self, bbox: [f64; 4], zoom: u8) -> Vec<Feature> {
         let mut min_lng = ((((bbox[0] + 180.0) % 360.0) + 360.0) % 360.0) - 180.0;
         let min_lat = f64::max(-90.0, f64::min(90.0, bbox[1]));
         let mut max_lng = if bbox[2] == 180.0 {
@@ -335,7 +335,7 @@ impl Supercluster {
     ///
     /// # Returns
     /// An optional `Tile` containing a vector of GeoJSON features within the specified tile, or `None` if there are no features.
-    pub fn get_tile(&self, z: i32, x: f64, y: f64) -> Option<Tile> {
+    pub fn get_tile(&self, z: u8, x: f64, y: f64) -> Option<Tile> {
         let tree = &self.trees[self.limit_zoom(z)];
         let z2: f64 = (2u32).pow(z as u32) as f64;
         let p = self.options.radius / self.options.extent;
@@ -535,7 +535,7 @@ impl Supercluster {
     ///
     /// # Returns
     /// The effective zoom level considering the configured minimum and maximum zoom levels.
-    fn limit_zoom(&self, zoom: i32) -> usize {
+    fn limit_zoom(&self, zoom: u8) -> usize {
         zoom.max(self.options.min_zoom)
             .min(self.options.max_zoom + 1) as usize
     }
@@ -550,8 +550,8 @@ impl Supercluster {
     /// # Returns
     /// A tuple of two vectors: the first one contains updated data arrays for the current zoom level,
     /// and the second one contains data arrays for the next zoom level.
-    fn cluster(&self, tree: &KDBush, zoom: i32) -> (Vec<f64>, Vec<f64>) {
-        let r = self.options.radius / (self.options.extent * (2.0_f64).powi(zoom));
+    fn cluster(&self, tree: &KDBush, zoom: u8) -> (Vec<f64>, Vec<f64>) {
+        let r = self.options.radius / (self.options.extent * (2.0_f64).powi(zoom as i32));
         let mut data = tree.data.clone();
         let mut next_data = Vec::new();
 

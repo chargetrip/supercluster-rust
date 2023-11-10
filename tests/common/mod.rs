@@ -2,7 +2,7 @@ use std::{fs, path::Path};
 use supercluster::{Feature, Options, Tile};
 
 #[allow(dead_code)]
-pub fn get_options(radius: f64, extent: f64, min_points: i32, max_zoom: i32) -> Options {
+pub fn get_options(radius: f64, extent: f64, min_points: u8, max_zoom: u8) -> Options {
     Options {
         radius,
         extent,

@@ -3,8 +3,14 @@ name: test
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - '**.rs'
+      - 'src/**.rs'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - '**.rs'
+      - 'src/**.rs'
 
 env:
   CARGO_TERM_COLOR: always

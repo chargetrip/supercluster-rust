@@ -41,8 +41,13 @@ This crate is deeply inspired by Mapbox's supercluster [JS package](https://www.
 
 ## Safety
 
-This crate uses `#![forbid(unsafe_code)]` to ensure everything is implemented in
-100% safe Rust.
+This crate uses `#![forbid(unsafe_code)]` to ensure everything is implemented in 100% safe Rust.
+
+## Documentation
+
+For more in-depth details, please refer to the full [documentation](https://docs.rs/supercluster).
+
+If you encounter any issues or have questions that are not addressed in the documentation, feel free to [submit an issue](https://github.com/chargetrip/supercluster-rust/issues).
 
 ## Usage
 

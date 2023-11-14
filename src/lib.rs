@@ -110,7 +110,7 @@ pub struct Supercluster {
     stride: usize,
 
     /// Input data points
-    points: Vec<Feature>,
+    pub points: Vec<Feature>,
 
     /// Clusters metadata
     cluster_props: Vec<Properties>,

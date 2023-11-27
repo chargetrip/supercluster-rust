@@ -401,7 +401,18 @@ impl Supercluster {
         expansion_zoom
     }
 
-    /// Append cluster leaves or individual points to the result vector based on the specified cluster ID and limits
+    /// Appends leaves (features) to the result vector based on the specified criteria.
+    ///
+    /// # Arguments
+    ///
+    /// - `result`: A mutable reference to a vector where leaves will be appended.
+    /// - `cluster_id`: The identifier of the cluster whose leaves are being collected.
+    /// - `limit`: The maximum number of leaves to collect.
+    /// - `offset`: The number of leaves to skip before starting to collect.
+    /// - `skipped`: The current count of skipped leaves, used for tracking the progress.
+    ///
+    /// # Returns
+    /// The updated count of skipped leaves after processing the current cluster.
     fn append_leaves(
         &self,
         result: &mut Vec<Feature>,
@@ -726,12 +737,26 @@ fn get_cluster_properties(data: &[f64], i: usize, cluster_props: &[Properties]) 
     properties
 }
 
-/// Convert longitude to spherical mercator in [0..1] range
+/// Convert longitude to spherical mercator in the [0..1] range.
+///
+/// # Arguments
+///
+/// - `lng`: The longitude value to be converted.
+///
+/// # Returns
+/// The converted value in the [0..1] range.
 fn lng_x(lng: f64) -> f64 {
     lng / 360.0 + 0.5
 }
 
-/// Convert latitude to spherical mercator in [0..1] range
+/// Convert latitude to spherical mercator in the [0..1] range.
+///
+/// # Arguments
+///
+/// - `lat`: The latitude value to be converted.
+///
+/// # Returns
+/// The converted value in the [0..1] range.
 fn lat_y(lat: f64) -> f64 {
     let sin = lat.to_radians().sin();
     let y = 0.5 - (0.25 * ((1.0 + sin) / (1.0 - sin)).ln()) / PI;
@@ -745,12 +770,26 @@ fn lat_y(lat: f64) -> f64 {
     }
 }
 
-/// Convert spherical mercator to longitude
+/// Convert spherical mercator to longitude.
+///
+/// # Arguments
+///
+/// - `x`: The spherical mercator value to be converted.
+///
+/// # Returns
+/// The converted longitude value.
 fn x_lng(x: f64) -> f64 {
     (x - 0.5) * 360.0
 }
 
-/// Convert spherical mercator to latitude
+/// Convert spherical mercator to latitude.
+///
+/// # Arguments
+///
+/// - `y`: The spherical mercator value to be converted.
+///
+/// # Returns
+/// The converted latitude value.
 fn y_lat(y: f64) -> f64 {
     let y2 = ((180.0 - y * 360.0) * PI) / 180.0;
     (360.0 * y2.exp().atan()) / PI - 90.0

@@ -9,7 +9,7 @@ This crate is deeply inspired by Mapbox's supercluster [JS package](https://www.
 [![test](https://github.com/chargetrip/supercluster-rust/actions/workflows/test.yml/badge.svg)](https://github.com/chargetrip/supercluster-rust/actions/workflows/test.yml)
 [![docs](https://docs.rs/supercluster/badge.svg)](https://docs.rs/supercluster)
 [![crate](https://img.shields.io/crates/v/supercluster.svg)](https://crates.io/crates/supercluster)
-![Crates.io (recent)](https://img.shields.io/crates/dr/supercluster)
+![downloads](https://img.shields.io/crates/d/supercluster)
 ![GitHub](https://img.shields.io/github/license/chargetrip/supercluster-rust)
 
 ![Features](https://cloud.githubusercontent.com/assets/25395/11857351/43407b46-a40c-11e5-8662-e99ab1cd2cb7.gif)

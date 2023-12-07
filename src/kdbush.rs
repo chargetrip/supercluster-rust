@@ -27,6 +27,10 @@ impl KDBush {
     ///
     /// - `size_hint`: An estimate of the number of points that will be added to the index.
     /// - `node_size`: The maximum number of points in a leaf node of the KD-tree.
+    ///
+    /// # Returns
+    ///
+    /// A new `KDBush` instance with the given configuration.
     pub fn new(size_hint: usize, node_size: usize) -> Self {
         KDBush {
             node_size,
@@ -74,6 +78,7 @@ impl KDBush {
     /// - `max_y`: The maximum Y-coordinate (latitude) of the bounding box.
     ///
     /// # Returns
+    ///
     /// A vector of point indices that fall within the specified bounding box.
     pub fn range(&self, min_x: f64, min_y: f64, max_x: f64, max_y: f64) -> Vec<usize> {
         let mut stack = vec![(0, self.ids.len() - 1, 0)];
@@ -125,6 +130,7 @@ impl KDBush {
     /// - `radius`: The radius around the query point.
     ///
     /// # Returns
+    ///
     /// A vector of point indices that fall within the specified radius from the query point.
     pub fn within(&self, qx: f64, qy: f64, radius: f64) -> Vec<usize> {
         let mut stack = vec![(0, self.ids.len() - 1, 0)];
@@ -271,7 +277,16 @@ impl KDBush {
         }
     }
 
-    /// Return the maximum of two values
+    /// Return the maximum of two values.
+    ///
+    /// # Arguments
+    ///
+    /// - `a`: The first value.
+    /// - `b`: The second value.
+    ///
+    /// # Returns
+    ///
+    /// The maximum of the two values.
     fn get_max(a: usize, b: usize) -> usize {
         if a > b {
             a
@@ -280,7 +295,16 @@ impl KDBush {
         }
     }
 
-    /// Return the minimum of two values
+    /// Return the minimum of two values.
+    ///
+    /// # Arguments
+    ///
+    /// - `a`: The first value.
+    /// - `b`: The second value.
+    ///
+    /// # Returns
+    ///
+    /// The minimum of the two values.
     fn get_min(a: usize, b: usize) -> usize {
         if a < b {
             a
@@ -289,7 +313,12 @@ impl KDBush {
         }
     }
 
-    /// Swap the elements at two specified indices in the KD-tree data structures
+    /// Swap the elements at two specified indices in the KD-tree data structures.
+    ///
+    /// # Arguments
+    ///
+    /// - `i`: The index of the first element.
+    /// - `j`: The index of the second element.
     fn swap_item(&mut self, i: usize, j: usize) {
         self.ids.swap(i, j);
 
@@ -297,7 +326,18 @@ impl KDBush {
         self.coords.swap(2 * i + 1, 2 * j + 1);
     }
 
-    /// Compute the square of the Euclidean distance between two points in a 2D space
+    /// Compute the square of the Euclidean distance between two points in a 2D space.
+    ///
+    /// # Arguments
+    ///
+    /// - `ax`: The x-coordinate of the first point.
+    /// - `ay`: The y-coordinate of the first point.
+    /// - `bx`: The x-coordinate of the second point.
+    /// - `by`: The y-coordinate of the second point.
+    ///
+    /// # Returns
+    ///
+    /// The square of the Euclidean distance between the two points.
     fn sq_dist(ax: f64, ay: f64, bx: f64, by: f64) -> f64 {
         let dx = ax - bx;
         let dy = ay - by;

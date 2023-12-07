@@ -124,6 +124,7 @@ impl Supercluster {
     /// - `options`: The configuration options for Supercluster.
     ///
     /// # Returns
+    ///
     /// A new `Supercluster` instance with the given configuration.
     pub fn new(options: Options) -> Self {
         let capacity = options.max_zoom + 1;
@@ -147,6 +148,7 @@ impl Supercluster {
     /// - `points`: A vector of GeoJSON features representing input points to be clustered.
     ///
     /// # Returns
+    ///
     /// A mutable reference to the updated `Supercluster` instance.
     pub fn load(&mut self, points: Vec<Feature>) -> &mut Self {
         let min_zoom = self.options.min_zoom;
@@ -207,6 +209,7 @@ impl Supercluster {
     /// - `zoom`: The zoom level at which to retrieve clusters.
     ///
     /// # Returns
+    ///
     /// A vector of GeoJSON features representing the clusters within the specified bounding box and zoom level.
     pub fn get_clusters(&self, bbox: [f64; 4], zoom: u8) -> Vec<Feature> {
         let mut min_lng = ((((bbox[0] + 180.0) % 360.0) + 360.0) % 360.0) - 180.0;
@@ -257,6 +260,7 @@ impl Supercluster {
     /// - `cluster_id`: The unique identifier of the cluster.
     ///
     /// # Returns
+    ///
     /// A `Result` containing a vector of GeoJSON features representing the children of the specified cluster if successful,
     /// or an error message if the cluster is not found.
     pub fn get_children(&self, cluster_id: usize) -> Result<Vec<Feature>, &'static str> {
@@ -316,6 +320,7 @@ impl Supercluster {
     /// - `offset`: The offset to start retrieving leaf features.
     ///
     /// # Returns
+    ///
     /// A vector of GeoJSON features representing the individual leaf features within the cluster.
     pub fn get_leaves(&self, cluster_id: usize, limit: usize, offset: usize) -> Vec<Feature> {
         let mut leaves = vec![];
@@ -334,6 +339,7 @@ impl Supercluster {
     /// - `y`: The Y coordinate of the tile.
     ///
     /// # Returns
+    ///
     /// An optional `Tile` containing a vector of GeoJSON features within the specified tile, or `None` if there are no features.
     pub fn get_tile(&self, z: u8, x: f64, y: f64) -> Option<Tile> {
         let tree = &self.trees[self.limit_zoom(z)];
@@ -374,6 +380,7 @@ impl Supercluster {
     /// - `cluster_id`: The unique identifier of the cluster.
     ///
     /// # Returns
+    ///
     /// The zoom level at which the cluster expands.
     pub fn get_cluster_expansion_zoom(&self, mut cluster_id: usize) -> usize {
         let mut expansion_zoom = self.get_origin_zoom(cluster_id) - 1;
@@ -412,6 +419,7 @@ impl Supercluster {
     /// - `skipped`: The current count of skipped leaves, used for tracking the progress.
     ///
     /// # Returns
+    ///
     /// The updated count of skipped leaves after processing the current cluster.
     fn append_leaves(
         &self,
@@ -462,6 +470,7 @@ impl Supercluster {
     /// - `data`: A vector of flat numeric arrays representing point data for the KD-tree.
     ///
     /// # Returns
+    ///
     /// A `KDBush` instance with the specified data.
     fn create_tree(&mut self, data: Vec<f64>) -> KDBush {
         let mut tree = KDBush::new(data.len() / self.stride, self.options.node_size);
@@ -545,6 +554,7 @@ impl Supercluster {
     /// - `zoom`: The initial zoom level.
     ///
     /// # Returns
+    ///
     /// The effective zoom level considering the configured minimum and maximum zoom levels.
     fn limit_zoom(&self, zoom: u8) -> usize {
         zoom.max(self.options.min_zoom)
@@ -559,6 +569,7 @@ impl Supercluster {
     /// - `zoom`: The zoom level at which clustering is performed.
     ///
     /// # Returns
+    ///
     /// A tuple of two vectors: the first one contains updated data arrays for the current zoom level,
     /// and the second one contains data arrays for the next zoom level.
     fn cluster(&self, tree: &KDBush, zoom: u8) -> (Vec<f64>, Vec<f64>) {
@@ -663,6 +674,7 @@ impl Supercluster {
     /// - `cluster_id`: The unique identifier of the cluster.
     ///
     /// # Returns
+    ///
     /// The index of the point from which the cluster originated.
     fn get_origin_id(&self, cluster_id: usize) -> usize {
         (cluster_id - self.points.len()) >> 5
@@ -675,6 +687,7 @@ impl Supercluster {
     /// - `cluster_id`: The unique identifier of the cluster.
     ///
     /// # Returns
+    ///
     /// The zoom level of the point from which the cluster originated.
     fn get_origin_zoom(&self, cluster_id: usize) -> usize {
         (cluster_id - self.points.len()) % 32
@@ -690,6 +703,7 @@ impl Supercluster {
 /// - `cluster_props`: A reference to a vector of cluster properties.
 ///
 /// # Returns
+///
 /// A GeoJSON feature representing a cluster.
 fn get_cluster_json(data: &[f64], i: usize, cluster_props: &[Properties]) -> Feature {
     Feature {
@@ -712,6 +726,7 @@ fn get_cluster_json(data: &[f64], i: usize, cluster_props: &[Properties]) -> Fea
 /// - `cluster_props`: A reference to a vector of cluster properties.
 ///
 /// # Returns
+///
 /// Properties for the cluster based on the clustered point data.
 fn get_cluster_properties(data: &[f64], i: usize, cluster_props: &[Properties]) -> Properties {
     let count = data[i + OFFSET_NUM];
@@ -744,6 +759,7 @@ fn get_cluster_properties(data: &[f64], i: usize, cluster_props: &[Properties]) 
 /// - `lng`: The longitude value to be converted.
 ///
 /// # Returns
+///
 /// The converted value in the [0..1] range.
 fn lng_x(lng: f64) -> f64 {
     lng / 360.0 + 0.5
@@ -756,6 +772,7 @@ fn lng_x(lng: f64) -> f64 {
 /// - `lat`: The latitude value to be converted.
 ///
 /// # Returns
+///
 /// The converted value in the [0..1] range.
 fn lat_y(lat: f64) -> f64 {
     let sin = lat.to_radians().sin();
@@ -777,6 +794,7 @@ fn lat_y(lat: f64) -> f64 {
 /// - `x`: The spherical mercator value to be converted.
 ///
 /// # Returns
+///
 /// The converted longitude value.
 fn x_lng(x: f64) -> f64 {
     (x - 0.5) * 360.0
@@ -789,6 +807,7 @@ fn x_lng(x: f64) -> f64 {
 /// - `y`: The spherical mercator value to be converted.
 ///
 /// # Returns
+///
 /// The converted latitude value.
 fn y_lat(y: f64) -> f64 {
     let y2 = ((180.0 - y * 360.0) * PI) / 180.0;

@@ -1,4 +1,5 @@
 {
+  "type": "FeatureCollection",
   "features": [
     {
       "type": "Feature",
@@ -15,7 +16,7 @@
         "point_count": 16,
         "point_count_abbreviated": "16"
       },
-      "id": 164
+      "id": "164"
     },
     {
       "type": "Feature",
@@ -32,7 +33,7 @@
         "point_count": 18,
         "point_count_abbreviated": "18"
       },
-      "id": 196
+      "id": "196"
     },
     {
       "type": "Feature",
@@ -49,7 +50,7 @@
         "point_count": 13,
         "point_count_abbreviated": "13"
       },
-      "id": 228
+      "id": "228"
     },
     {
       "type": "Feature",
@@ -66,7 +67,7 @@
         "point_count": 8,
         "point_count_abbreviated": "8"
       },
-      "id": 260
+      "id": "260"
     },
     {
       "type": "Feature",
@@ -83,7 +84,7 @@
         "point_count": 15,
         "point_count_abbreviated": "15"
       },
-      "id": 292
+      "id": "292"
     },
     {
       "type": "Feature",
@@ -100,7 +101,7 @@
         "point_count": 4,
         "point_count_abbreviated": "4"
       },
-      "id": 324
+      "id": "324"
     },
     {
       "type": "Feature",
@@ -117,7 +118,7 @@
         "point_count": 6,
         "point_count_abbreviated": "6"
       },
-      "id": 420
+      "id": "420"
     },
     {
       "type": "Feature",
@@ -155,7 +156,7 @@
         "point_count": 3,
         "point_count_abbreviated": "3"
       },
-      "id": 581
+      "id": "581"
     },
     {
       "type": "Feature",
@@ -172,7 +173,7 @@
         "point_count": 4,
         "point_count_abbreviated": "4"
       },
-      "id": 580
+      "id": "580"
     },
     {
       "type": "Feature",
@@ -189,7 +190,7 @@
         "point_count": 6,
         "point_count_abbreviated": "6"
       },
-      "id": 644
+      "id": "644"
     },
     {
       "type": "Feature",
@@ -290,7 +291,7 @@
         "point_count": 3,
         "point_count_abbreviated": "3"
       },
-      "id": 836
+      "id": "836"
     },
     {
       "type": "Feature",
@@ -307,7 +308,7 @@
         "point_count": 6,
         "point_count_abbreviated": "6"
       },
-      "id": 900
+      "id": "900"
     },
     {
       "type": "Feature",
@@ -366,7 +367,7 @@
         "point_count": 2,
         "point_count_abbreviated": "2"
       },
-      "id": 1157
+      "id": "1157"
     },
     {
       "type": "Feature",
@@ -383,7 +384,7 @@
         "point_count": 13,
         "point_count_abbreviated": "13"
       },
-      "id": 1124
+      "id": "1124"
     },
     {
       "type": "Feature",
@@ -400,7 +401,7 @@
         "point_count": 5,
         "point_count_abbreviated": "5"
       },
-      "id": 1188
+      "id": "1188"
     },
     {
       "type": "Feature",
@@ -417,7 +418,7 @@
         "point_count": 2,
         "point_count_abbreviated": "2"
       },
-      "id": 1701
+      "id": "1701"
     },
     {
       "type": "Feature",
@@ -455,7 +456,7 @@
         "point_count": 13,
         "point_count_abbreviated": "13"
       },
-      "id": 1380
+      "id": "1380"
     },
     {
       "type": "Feature",
@@ -472,7 +473,7 @@
         "point_count": 4,
         "point_count_abbreviated": "4"
       },
-      "id": 1925
+      "id": "1925"
     },
     {
       "type": "Feature",
@@ -494,7 +495,7 @@
         "subregion": "New Zealand",
         "featureclass": "cape"
       },
-      "id": 737
+      "id": "737"
     },
     {
       "type": "Feature",
@@ -511,7 +512,7 @@
         "point_count": 7,
         "point_count_abbreviated": "7"
       },
-      "id": 1668
+      "id": "1668"
     },
     {
       "type": "Feature",
@@ -591,7 +592,7 @@
         "point_count": 2,
         "point_count_abbreviated": "2"
       },
-      "id": 4134
+      "id": "4134"
     },
     {
       "type": "Feature",
@@ -608,7 +609,7 @@
         "point_count": 13,
         "point_count_abbreviated": "13"
       },
-      "id": 1380
+      "id": "1380"
     },
     {
       "type": "Feature",
@@ -625,7 +626,7 @@
         "point_count": 4,
         "point_count_abbreviated": "4"
       },
-      "id": 1925
+      "id": "1925"
     },
     {
       "type": "Feature",
@@ -647,7 +648,7 @@
         "subregion": "New Zealand",
         "featureclass": "cape"
       },
-      "id": 737
+      "id": "737"
     },
     {
       "type": "Feature",
@@ -664,7 +665,7 @@
         "point_count": 7,
         "point_count_abbreviated": "7"
       },
-      "id": 1668
+      "id": "1668"
     },
     {
       "type": "Feature",
@@ -702,7 +703,7 @@
         "point_count": 6,
         "point_count_abbreviated": "6"
       },
-      "id": 900
+      "id": "900"
     },
     {
       "type": "Feature",
@@ -719,7 +720,7 @@
         "point_count": 2,
         "point_count_abbreviated": "2"
       },
-      "id": 1157
+      "id": "1157"
     }
   ]
 }

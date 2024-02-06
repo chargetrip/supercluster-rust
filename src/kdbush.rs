@@ -1,22 +1,22 @@
-/// Array of coordinates with longitude as first value and latitude as second one
+/// Array of coordinates with longitude as first value and latitude as second one.
 type Point = [f64; 2];
 
-/// A very fast static spatial index for 2D points based on a flat KD-tree
+/// A very fast static spatial index for 2D points based on a flat KD-tree.
 #[derive(Clone, Debug)]
 pub struct KDBush {
-    /// Node size for the KD-tree. Determines the number of points in a leaf node
+    /// Node size for the KD-tree. Determines the number of points in a leaf node.
     pub node_size: usize,
 
-    /// A list of point IDs used to reference points in the KD-tree
+    /// A list of point IDs used to reference points in the KD-tree.
     pub ids: Vec<usize>,
 
-    /// A flat array containing the X and Y coordinates of all points in interleaved order
+    /// A flat array containing the X and Y coordinates of all points in interleaved order.
     pub coords: Vec<f64>,
 
-    /// A list of 2D points represented as an array of [longitude, latitude] coordinates
+    /// A list of 2D points represented as an array of [longitude, latitude] coordinates.
     pub points: Vec<Point>,
 
-    /// A list of additional data associated with the points (e.g., properties)
+    /// A list of additional data associated with the points (e.g., properties).
     pub data: Vec<f64>,
 }
 

@@ -16,11 +16,11 @@ This crate is deeply inspired by Mapbox's supercluster [JS package](https://www.
 
 ## Features
 
-- `load(points)`: Loads an array of [GeoJSON Feature](https://tools.ietf.org/html/rfc7946#section-3.2) objects. Each feature's `geometry` must be a [GeoJSON Point](https://tools.ietf.org/html/rfc7946#section-3.1.2).
+- `load(points)`: Loads a [FeatureCollection](https://datatracker.ietf.org/doc/html/rfc7946#section-3.3) Object. Each feature should be a [Feature Object](https://datatracker.ietf.org/doc/html/rfc7946#section-3.2).
 
-- `get_clusters(bbox, zoom)`: For the given `bbox` array (`[west_lng, south_lat, east_lng, north_lat]`) and `zoom`, returns an array of clusters and points as [GeoJSON Feature](https://tools.ietf.org/html/rfc7946#section-3.2) objects.
+- `get_clusters(bbox, zoom)`: For the given `bbox` array (`[west_lng, south_lat, east_lng, north_lat]`) and `zoom`, returns an array of clusters and points as [Feature Object](https://datatracker.ietf.org/doc/html/rfc7946#section-3.2) objects.
 
-- `get_tile(z, x, y)`: For a given zoom and x/y coordinates, returns a [geojson-vt](https://github.com/mapbox/geojson-vt)-compatible JSON tile object with cluster/point features.
+- `get_tile(z, x, y)`: For a given zoom and x/y coordinates, returns a [FeatureCollection](https://datatracker.ietf.org/doc/html/rfc7946#section-3.3) Object.
 
 - `get_children(cluster_id)`: Returns the children of a cluster (on the next zoom level) given its id (`cluster_id` value from feature properties).
 
@@ -58,8 +58,7 @@ cargo add supercluster
 ```
 
 ```rust
-extern crate supercluster;
-
+use geojson::FeatureCollection;
 use supercluster::{ Supercluster, Options };
 
 fn main() {
@@ -75,11 +74,18 @@ fn main() {
   // Create a new instance with the specified configuration settings
   let mut cluster = Supercluster::new(options);
 
-  // Load the input GeoJSON points into the Supercluster instance
-  let points = Vec::new(); // your points
-  let index = cluster.load(points);
+  // Load a FeatureCollection Object into the Supercluster instance
 
-  // Retrieve a vector of features within a tile at the given zoom level and tile coordinates
+  // [GeoJSON Format Specification § 5](https://tools.ietf.org/html/rfc7946#section-5)
+  let feature_collection = FeatureCollection {
+    bbox: None,
+    // [GeoJSON Format Specification § 3.2](https://datatracker.ietf.org/doc/html/rfc7946#section-3.2)
+    features: vec![],
+    foreign_members: None,
+  };
+  let index = cluster.load(feature_collection);
+
+  // Retrieve a FeatureCollection Object within a tile at the given zoom level and tile coordinates
   let tile = index.get_tile(0, 0.0, 0.0).expect("cannot get a tile");
 
   ...
@@ -106,7 +112,7 @@ Run [clippy](https://github.com/rust-lang/rust-clippy):
 cargo clippy --all-targets --all-features -- -D warnings
 ```
 
-Run [lint](https://github.com/rust-lang/rustfmt):
+Run [rustfmt](https://github.com/rust-lang/rustfmt):
 
 ```bash
 cargo fmt

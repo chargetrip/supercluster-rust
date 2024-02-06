@@ -1,7 +1,9 @@
 mod common;
 
 use common::{get_options, load_places, load_tile_places, load_tile_places_with_min_5};
-use supercluster::{Feature, Geometry, Properties, Supercluster};
+use geojson::{Feature, Geometry, JsonObject, Value::Point};
+use serde_json::json;
+use supercluster::Supercluster;
 
 #[test]
 fn test_generate_clusters() {
@@ -38,7 +40,13 @@ fn test_get_cluster() {
         .get_children(164)
         .unwrap()
         .iter()
-        .map(|cluster| cluster.properties.point_count.unwrap_or(1))
+        .map(|cluster| {
+            cluster
+                .property("point_count")
+                .unwrap_or(&json!(1))
+                .as_u64()
+                .unwrap() as usize
+        })
         .collect();
 
     // Define the expected cluster counts.
@@ -89,7 +97,7 @@ fn test_get_cluster_leaves() {
     let leaf_names: Vec<String> = index
         .get_leaves(164, 10, 5)
         .iter()
-        .map(|leaf| leaf.properties.name.clone().unwrap())
+        .map(|leaf| leaf.property("name").unwrap().as_str().unwrap().to_string())
         .collect();
 
     assert_eq!(leaf_names.len(), expected_names.len());
@@ -102,39 +110,31 @@ fn test_clusters_when_query_crosses_international_dateline() {
     let index = cluster.load(vec![
         Feature {
             id: None,
-            r#type: "Feature".to_string(),
-            geometry: Some(Geometry {
-                r#type: "Point".to_string(),
-                coordinates: vec![-178.989, 0.0],
-            }),
-            properties: Properties::default(),
+            bbox: None,
+            foreign_members: None,
+            geometry: Some(Geometry::new(Point(vec![-178.989, 0.0]))),
+            properties: Some(JsonObject::new()),
         },
         Feature {
             id: None,
-            r#type: "Feature".to_string(),
-            geometry: Some(Geometry {
-                r#type: "Point".to_string(),
-                coordinates: vec![-178.99, 0.0],
-            }),
-            properties: Properties::default(),
+            bbox: None,
+            foreign_members: None,
+            geometry: Some(Geometry::new(Point(vec![-178.99, 0.0]))),
+            properties: Some(JsonObject::new()),
         },
         Feature {
             id: None,
-            r#type: "Feature".to_string(),
-            geometry: Some(Geometry {
-                r#type: "Point".to_string(),
-                coordinates: vec![-178.991, 0.0],
-            }),
-            properties: Properties::default(),
+            bbox: None,
+            foreign_members: None,
+            geometry: Some(Geometry::new(Point(vec![-178.991, 0.0]))),
+            properties: Some(JsonObject::new()),
         },
         Feature {
             id: None,
-            r#type: "Feature".to_string(),
-            geometry: Some(Geometry {
-                r#type: "Point".to_string(),
-                coordinates: vec![-178.992, 0.0],
-            }),
-            properties: Properties::default(),
+            bbox: None,
+            foreign_members: None,
+            geometry: Some(Geometry::new(Point(vec![-178.992, 0.0]))),
+            properties: Some(JsonObject::new()),
         },
     ]);
 

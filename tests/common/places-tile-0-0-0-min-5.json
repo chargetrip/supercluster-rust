@@ -1,4 +1,5 @@
 {
+  "type": "FeatureCollection",
   "features": [
     {
       "type": "Feature",
@@ -15,7 +16,7 @@
         "point_count": 15,
         "point_count_abbreviated": "15"
       },
-      "id": 164
+      "id": "164"
     },
     {
       "type": "Feature",
@@ -32,7 +33,7 @@
         "point_count": 20,
         "point_count_abbreviated": "20"
       },
-      "id": 196
+      "id": "196"
     },
     {
       "type": "Feature",
@@ -49,7 +50,7 @@
         "point_count": 14,
         "point_count_abbreviated": "14"
       },
-      "id": 228
+      "id": "228"
     },
     {
       "type": "Feature",
@@ -66,7 +67,7 @@
         "point_count": 10,
         "point_count_abbreviated": "10"
       },
-      "id": 260
+      "id": "260"
     },
     {
       "type": "Feature",
@@ -83,7 +84,7 @@
         "point_count": 11,
         "point_count_abbreviated": "11"
       },
-      "id": 356
+      "id": "356"
     },
     {
       "type": "Feature",
@@ -184,7 +185,7 @@
         "point_count": 5,
         "point_count_abbreviated": "5"
       },
-      "id": 548
+      "id": "548"
     },
     {
       "type": "Feature",
@@ -285,7 +286,7 @@
         "point_count": 5,
         "point_count_abbreviated": "5"
       },
-      "id": 964
+      "id": "964"
     },
     {
       "type": "Feature",
@@ -302,7 +303,7 @@
         "point_count": 6,
         "point_count_abbreviated": "6"
       },
-      "id": 1092
+      "id": "1092"
     },
     {
       "type": "Feature",
@@ -445,7 +446,7 @@
         "point_count": 6,
         "point_count_abbreviated": "6"
       },
-      "id": 1444
+      "id": "1444"
     },
     {
       "type": "Feature",
@@ -567,7 +568,7 @@
         "point_count": 8,
         "point_count_abbreviated": "8"
       },
-      "id": 1924
+      "id": "1924"
     },
     {
       "type": "Feature",
@@ -584,7 +585,7 @@
         "point_count": 10,
         "point_count_abbreviated": "10"
       },
-      "id": 2180
+      "id": "2180"
     },
     {
       "type": "Feature",
@@ -601,7 +602,7 @@
         "point_count": 5,
         "point_count_abbreviated": "5"
       },
-      "id": 2340
+      "id": "2340"
     },
     {
       "type": "Feature",
@@ -702,7 +703,7 @@
         "point_count": 13,
         "point_count_abbreviated": "13"
       },
-      "id": 2692
+      "id": "2692"
     },
     {
       "type": "Feature",
@@ -719,7 +720,7 @@
         "point_count": 6,
         "point_count_abbreviated": "6"
       },
-      "id": 3236
+      "id": "3236"
     },
     {
       "type": "Feature",
@@ -841,7 +842,7 @@
         "point_count": 10,
         "point_count_abbreviated": "10"
       },
-      "id": 2180
+      "id": "2180"
     },
     {
       "type": "Feature",
@@ -858,7 +859,7 @@
         "point_count": 13,
         "point_count_abbreviated": "13"
       },
-      "id": 2692
+      "id": "2692"
     },
     {
       "type": "Feature",
@@ -917,7 +918,7 @@
         "point_count": 6,
         "point_count_abbreviated": "6"
       },
-      "id": 1444
+      "id": "1444"
     },
     {
       "type": "Feature",

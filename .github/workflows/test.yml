@@ -21,11 +21,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Build
-      run: cargo build --verbose
+    - name: Run build
+      run: cargo build
     - name: Run clippy
       run: cargo clippy --all-targets --all-features -- -D warnings
-    - name: Run lint
+    - name: Run rustfmt
       run: cargo fmt -- --check
     - name: Run tests
-      run: cargo test --verbose
+      run: cargo test

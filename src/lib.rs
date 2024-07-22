@@ -5,7 +5,7 @@ mod kdbush;
 use geojson::{feature::Id, Feature, FeatureCollection, Geometry, JsonObject, Value::Point};
 use kdbush::KDBush;
 use serde_json::json;
-use std::f64::{consts::PI, INFINITY};
+use std::f64::consts::PI;
 
 /// An offset index used to access the zoom level value associated with a cluster in the data arrays.
 const OFFSET_ZOOM: usize = 2;
@@ -123,7 +123,7 @@ impl Supercluster {
             data.push(lat_y(coordinates[1]));
 
             // The last zoom the point was processed at
-            data.push(INFINITY);
+            data.push(f64::INFINITY);
 
             // Index of the source feature in the original input array
             data.push(i as f64);
@@ -162,13 +162,13 @@ impl Supercluster {
     /// A vector of GeoJSON features representing the clusters within the specified bounding box and zoom level.
     pub fn get_clusters(&self, bbox: [f64; 4], zoom: u8) -> Vec<Feature> {
         let mut min_lng = ((((bbox[0] + 180.0) % 360.0) + 360.0) % 360.0) - 180.0;
-        let min_lat = f64::max(-90.0, f64::min(90.0, bbox[1]));
+        let min_lat = bbox[1].clamp(-90.0, 90.0);
         let mut max_lng = if bbox[2] == 180.0 {
             180.0
         } else {
             ((((bbox[2] + 180.0) % 360.0) + 360.0) % 360.0) - 180.0
         };
-        let max_lat = f64::max(-90.0, f64::min(90.0, bbox[3]));
+        let max_lat = bbox[3].clamp(-90.0, 90.0);
 
         if bbox[2] - bbox[0] >= 360.0 {
             min_lng = -180.0;
@@ -610,7 +610,7 @@ impl Supercluster {
 
                 next_data.push(wx / num_points);
                 next_data.push(wy / num_points);
-                next_data.push(INFINITY);
+                next_data.push(f64::INFINITY);
                 next_data.push(id as f64);
                 next_data.push(-1.0);
                 next_data.push(num_points);
@@ -755,13 +755,7 @@ fn lat_y(lat: f64) -> f64 {
     let sin = lat.to_radians().sin();
     let y = 0.5 - (0.25 * ((1.0 + sin) / (1.0 - sin)).ln()) / PI;
 
-    if y < 0.0 {
-        0.0
-    } else if y > 1.0 {
-        1.0
-    } else {
-        y
-    }
+    y.clamp(0.0, 1.0)
 }
 
 /// Convert spherical mercator to longitude.

@@ -2,7 +2,7 @@
 
 A very fast Rust crate for geospatial point clustering.
 
-This crate is deeply inspired by Mapbox's supercluster [JS package](https://www.npmjs.com/package/supercluster) and [blog post](https://www.mapbox.com/blog/supercluster/).
+This crate is inspired by Mapbox's supercluster [JS package](https://www.npmjs.com/package/supercluster) and [blog post](https://www.mapbox.com/blog/supercluster/).
 
 ## Reference implementation
 

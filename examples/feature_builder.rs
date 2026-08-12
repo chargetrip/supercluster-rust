@@ -26,7 +26,7 @@ fn main() -> Result<(), SuperclusterError> {
     // Get a tile from the Supercluster instance
     let tile = index.get_tile(0, 0.0, 0.0)?;
 
-    println!("Tile: {:?}", tile);
+    println!("Tile: {tile:?}");
 
     Ok(())
 }

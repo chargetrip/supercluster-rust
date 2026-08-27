@@ -3,7 +3,7 @@ mod common;
 use common::{
     get_data_range, load_cartesian, load_places, load_tile_places, load_tile_places_with_min_5,
 };
-use geojson::{Feature, Geometry, JsonObject, Value::Point};
+use geojson::{Feature, Geometry, GeometryValue, JsonObject};
 use supercluster::{CoordinateSystem, Supercluster, SuperclusterError};
 
 #[test]
@@ -195,28 +195,28 @@ fn test_clusters_when_query_crosses_international_dateline() {
                 id: None,
                 bbox: None,
                 foreign_members: None,
-                geometry: Some(Geometry::new(Point(vec![-178.989, 0.0]))),
+                geometry: Some(Geometry::new(GeometryValue::new_point(vec![-178.989, 0.0]))),
                 properties: Some(JsonObject::new()),
             },
             Feature {
                 id: None,
                 bbox: None,
                 foreign_members: None,
-                geometry: Some(Geometry::new(Point(vec![-178.99, 0.0]))),
+                geometry: Some(Geometry::new(GeometryValue::new_point(vec![-178.99, 0.0]))),
                 properties: Some(JsonObject::new()),
             },
             Feature {
                 id: None,
                 bbox: None,
                 foreign_members: None,
-                geometry: Some(Geometry::new(Point(vec![-178.991, 0.0]))),
+                geometry: Some(Geometry::new(GeometryValue::new_point(vec![-178.991, 0.0]))),
                 properties: Some(JsonObject::new()),
             },
             Feature {
                 id: None,
                 bbox: None,
                 foreign_members: None,
-                geometry: Some(Geometry::new(Point(vec![-178.992, 0.0]))),
+                geometry: Some(Geometry::new(GeometryValue::new_point(vec![-178.992, 0.0]))),
                 properties: Some(JsonObject::new()),
             },
         ])

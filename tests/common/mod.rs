@@ -1,4 +1,4 @@
-use geojson::{Feature, FeatureCollection, Value};
+use geojson::{Feature, FeatureCollection, GeometryValue};
 use std::{fs, path::Path};
 use supercluster::range::DataRange;
 
@@ -10,9 +10,9 @@ pub fn get_data_range(data: &Vec<Feature>) -> Option<DataRange> {
 
     for feature in data {
         if let Some(geometry) = &feature.geometry {
-            if let Value::Point(ref coords) = geometry.value {
-                let x = coords[0];
-                let y = coords[1];
+            if let GeometryValue::Point { ref coordinates } = geometry.value {
+                let x = coordinates[0];
+                let y = coordinates[1];
                 min_x = min_x.min(x);
                 min_y = min_y.min(y);
                 max_x = max_x.max(x);

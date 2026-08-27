@@ -16,7 +16,7 @@ use std::{collections::HashMap, f64::consts::PI, hash::BuildHasherDefault};
 
 #[cfg(feature = "cluster_metadata")]
 use geojson::JsonObject;
-use geojson::{feature::Id, Feature, FeatureCollection, Geometry, Value::Point};
+use geojson::{feature::Id, Feature, FeatureCollection, Geometry, GeometryValue};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 #[cfg(feature = "cluster_metadata")]
@@ -154,7 +154,7 @@ impl Supercluster {
             // Store internal point/cluster data in flat numeric arrays for performance
             let coordinates = match &feature.geometry {
                 Some(geometry) => match &geometry.value {
-                    Point(coords) => coords,
+                    GeometryValue::Point { coordinates } => coordinates,
                     _ => continue,
                 },
                 None => continue,
@@ -634,7 +634,7 @@ impl Supercluster {
 
                 let (px, py) = match p.geometry.as_ref() {
                     Some(geometry) => {
-                        if let Point(coordinates) = &geometry.value {
+                        if let GeometryValue::Point { coordinates } = &geometry.value {
                             match &self.options.coordinate_system {
                                 CoordinateSystem::Cartesian { range } => (
                                     range.normalize(coordinates[0]),
@@ -666,7 +666,7 @@ impl Supercluster {
                 self.points[data[k + OFFSET_ID] as usize].id.to_owned()
             };
 
-            let geometry = Geometry::new(Point(vec![
+            let geometry = Geometry::new(GeometryValue::new_point(vec![
                 (self.options.extent * (cluster.0 * z2 - x)).round(),
                 (self.options.extent * (cluster.1 * z2 - y)).round(),
             ]));
@@ -859,11 +859,11 @@ fn get_cluster(
     #[cfg(feature = "cluster_metadata")] metadata: &[JsonObject],
 ) -> Feature {
     let geometry = match coordinate_system {
-        CoordinateSystem::Cartesian { range } => Geometry::new(Point(vec![
+        CoordinateSystem::Cartesian { range } => Geometry::new(GeometryValue::new_point(vec![
             range.denormalize(data[i]),
             range.denormalize(data[i + 1]),
         ])),
-        CoordinateSystem::LatLng => Geometry::new(Point(vec![
+        CoordinateSystem::LatLng => Geometry::new(GeometryValue::new_point(vec![
             convert_spherical_mercator_to_longitude(data[i]),
             convert_spherical_mercator_to_latitude(data[i + 1]),
         ])),
@@ -980,8 +980,6 @@ fn convert_spherical_mercator_to_latitude(y: f64) -> f64 {
 mod tests {
     use super::*;
 
-    use geojson::JsonObject;
-
     fn setup() -> Supercluster {
         let options = Supercluster::builder().build();
         Supercluster::new(options)
@@ -1012,7 +1010,10 @@ mod tests {
         let feature = features.first().unwrap();
 
         assert_eq!(feature.id, Some(Id::String("0".to_string())));
-        assert_eq!(feature.geometry, Some(Geometry::new(Point(vec![0.0, 0.0]))));
+        assert_eq!(
+            feature.geometry,
+            Some(Geometry::new(GeometryValue::new_point(vec![0.0, 0.0])))
+        );
     }
 
     #[test]

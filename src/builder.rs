@@ -4,7 +4,7 @@
 
 use std::{collections::HashMap, hash::BuildHasherDefault};
 
-use geojson::{feature::Id, Feature, Geometry, Value};
+use geojson::{feature::Id, Feature, Geometry, GeometryValue};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 use twox_hash::XxHash64;
@@ -104,7 +104,7 @@ impl FeatureBuilder {
             .into_iter()
             .map(|(id, point)| Feature {
                 id: Some(Id::String(id)),
-                geometry: Some(Geometry::new(Value::Point(point))),
+                geometry: Some(Geometry::new(GeometryValue::new_point(point))),
                 bbox: None,
                 properties: None,
                 foreign_members: None,
